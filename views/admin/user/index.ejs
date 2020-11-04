@@ -1,0 +1,63 @@
+<%- include("../../layout/admin/head")%>
+
+<%- include("../../layout/admin/slidebar")%>
+
+<%- include("../../layout/admin/topbar")%>
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Product Lists</h6>
+        </div>
+        <%-include("../../layout/message")%>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>isAdmin</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>isAdmin</th>
+                        <th>Action</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <% data.forEach(function (user){ %>
+                        <tr>
+                            <td><%=user.name%></td>
+                            <td><%=user.email%></td>
+                            <td><%=user.phone%></td>
+                            <td><%=user.address%></td>
+                            <td>
+                                <% if(user.isAdmin==1){ %>
+                                    <span><i class="fa fa-check" style="color: green;font-size: 20px;"></i></span>
+                                <% }else{ %>
+                                    <span><i class="fa fa-times" style="font-size: 20px;color:red"></i></span>
+                                <% } %>
+                            </td>
+                            <td>
+                                <a href="/admin/user/edit/<%= user.id %>" class="alert alert-primary">Edit</a>
+                                <a href="/admin/user/Delete/<%= user.id %>" class="alert alert-danger delete" onclick="return FuncDelete()">Delete</a>
+                            </td>
+                        </tr>
+                   <% })%>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include("../../layout/admin/footer")%>

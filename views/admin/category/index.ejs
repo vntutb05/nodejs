@@ -1,0 +1,47 @@
+<%- include("../../layout/admin/head")%>
+
+<%- include("../../layout/admin/slidebar")%>
+
+<%- include("../../layout/admin/topbar")%>
+  <div class="container-fluid">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Category Lists</h6>
+            </div>
+            <%-include("../../layout/message")%>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                        <th>Name Category</th>
+                        <th>Description Category</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                        <th>Name Category</th>
+                        <th>Description Category</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <% data.forEach(function(cate){%>
+                    <tr>
+                      <td><%=cate.name%></td>
+                      <td><%=cate.description%></td>
+                      <td><%=cate.datatime.createdAt%></td>
+                      <td>
+                            <a href="/admin/cate/edit/<%=cate._id%>" class="alert alert-primary">Edit</a>
+                            <a href="/admin/cate/delete/<%=cate._id%>" class="alert alert-danger" onclick="return FuncDelete()">Delete</a>
+                      </td>
+                    </tr>
+                    <%})%>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+<%- include("../../layout/admin/footer")%>

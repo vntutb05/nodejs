@@ -1,0 +1,52 @@
+<%- include("../../layout/admin/head")%>
+
+<%- include("../../layout/admin/slidebar")%>
+
+<%- include("../../layout/admin/topbar")%>
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Add Product</h6>
+        </div>
+        <div  class="col-12">
+            <%-include("../../layout/message")%>
+            <form action="/admin/product/edit/<%=data._id%>" class="formReg" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="userReg">Name</label>
+                    <input type="text" placeholder="Input Name Product.." class="form-control" id="userReg" name="name" value='<%= data.name%>'>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Category select</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="category">
+                    <% cate.forEach(function(cate){%>
+                        <%if(cate._id==data.category){%>
+                            <option value="<%=cate._id%>" selected>
+                                <%=cate.name%>
+                            </option>
+                        <%}else{%>
+                        <option value="<%=cate._id%>">
+                            <%=cate.name%>
+                        </option>
+                        <%}%>
+                    <%})%>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" placeholder="Input Price.." class="form-control" id="price" name="price" value="<%=data.price%>">
+                </div>
+                <div class="form-group">
+                    <label for="decript">Decription</label>
+                    <input type="text" placeholder="Input Decription.." class="form-control" id="decript" name="decript" value="<%=data.decription%>">
+                </div>
+                <div class="form-group">
+                    <label for="image">Ảnh sản phẩm</label>
+                    <input type="file" id="image" name="image" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Đăng kí</button>
+                <a href="">Bạn đã có tài khoản ..???</a>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("../../layout/admin/footer")%>
