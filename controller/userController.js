@@ -15,24 +15,25 @@ module.exports={
         res.render("admin/user/add");
     },
     postAdd:function(req,res){
-        if(!req.body.name||!req.body.email || !req.body.address || !req.body.phone || !req.body.password || !req.body.repassword){
+        let params=req.body;
+        if(!params.name||!params.email || !params.address || !params.phone || !params.password){
             userAuth.user(req);
             res.redirect("/admin/user/add");
-        }else if(req.body.password!=req.body.repassword){
+        }else if(params.password!=params.repassword){
             userAuth.passMatch(req);
             res.redirect("/admin/user/add");
         }else{
-            const hash=bcrypt.hashSync(req.body.password,10);
+            const hash=bcrypt.hashSync(params.password,10);
             var data={
-                name:req.body.name,
-                email:req.body.email,
-                phone:req.body.phone,
-                address:req.body.address,
+                name:params.name,
+                email:params.email,
+                phone:params.phone,
+                address:params.address,
                 isAdmin:0,
                 password:hash
             }
             
-            userModel.find({email:req.body.email},function(err,result){
+            userModel.find({email:params.email},function(err,result){
                 if(result.length>0){
                    userAuth.userUnique(req);
                     res.redirect("/admin/user/add");
@@ -60,20 +61,21 @@ module.exports={
         })
     },
     postEdit:function(req,res){
-        if(!req.body.name|| !req.body.address || !req.body.phone){
+        let params=req.body;
+        if(!params.name|| !params.address || !params.phone){
             userAuth.edit(req);
             res.redirect(`/admin/user/edit/${req.params.id}`);
-        }else if(req.body.password!=req.body.repassword){
+        }else if(params.password!=params.repassword){
             userAuth.passMatch(req);
             res.redirect(`/admin/user/edit/${req.params.id}`);
         }else{
             var data={
-                name:req.body.name,
-                phone:req.body.phone,
-                address:req.body.address,
+                name:params.name,
+                phone:params.phone,
+                address:params.address,
             }
-            if(req.body.password !=""){
-                data.password=req.body.password;
+            if(params.password !=""){
+                data.password=params.password;
             }
             userModel.updateOne({_id:req.params.id},{$set:data},function(err,result){
                 if(err){

@@ -9,7 +9,7 @@ function FuncDelete(){
 }
 function exit_message(){
     $( ".message" ).hide( "slow", function() {
-       
+            
       });
 }
 function showDate(data){

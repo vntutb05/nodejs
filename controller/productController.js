@@ -1,7 +1,6 @@
 const product=require("../models/postModels");
 const cateModel=require("../models/cateModels");
 const fs=require("fs");
-const path=require("path");
 const productAuth=require("../auth/productAuth");
 
 
@@ -28,20 +27,25 @@ module.exports={
         })
     }
     ,postAdd:function(req,res,next){
-        if(!req.body.name || !req.body.price || !req.body.decript){
-            productAuth.add(req);
-        }else{
-            var img = fs.readFileSync("./public/uploads/" + req.file.filename);
-            var encode_image = img.toString('base64');
+        let params=req.body;
+        if(!params.name || !params.price || !params.decript){
+             productAuth.add(req);
+             return res.redirect("/admin/product/add");
+        }
             var datas={
-                name:req.body.name,
-                category:req.body.category,
-                price:req.body.price,
-                decription:req.body.decript,
-                image:{
-                    data:Buffer.from(encode_image, 'utf-8'),
-                },
+                name:params.name,
+                category:params.category,
+                price:params.price,
+                decription:params.decript,
+               
                 creationDate:new Date(),
+            }
+            if(req.file){
+                var img = fs.readFileSync("./public/uploads/" + req.file.filename);
+                var encode_image = img.toString('base64');
+                datas.image={
+                    data:Buffer.from(encode_image, 'utf-8')
+                };
             }
             product.create(datas,function (err,result){
                 if(err){
@@ -51,7 +55,7 @@ module.exports={
                     res.redirect('/admin/product/');
                 }
             })
-        }
+        
     }, 
      getEdit:function (req,res,next){
          const id=req.params.id;
@@ -67,14 +71,12 @@ module.exports={
     },
     // update
     postEdit:function(req,res){
-        if(req.file.filename){
-
-        }
+        let params=req.body;
         var data={
-            name:req.body.name,
-            category:req.body.category,
-            price:req.body.price,
-            decription:req.body.decript
+            name:params.name,
+            category:params.category,
+            price:params.price,
+            decription:params.decript
         }
         product.updateOne({_id:req.params.id}, {$set:data},function(err,result){
             if(err){

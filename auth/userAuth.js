@@ -15,9 +15,6 @@ module.exports={
         if(!req.body.password){
             req.flash("error","Vui lòng nhập mật khẩu của bạn");
         }
-        if(!req.body.repassword){
-            req.flash("error","Vui lòng nhập lại mật khẩu của bạn");
-        }
     },
     edit:(req)=>{
         if(!req.body.name){

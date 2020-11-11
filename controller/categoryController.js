@@ -16,13 +16,14 @@ module.exports={
         res.render("admin/category/add");
     },
     postAdd:function(req,res,next){
-        if(!req.body.nameCate || !req.body.descriptCate){
+        let params=req.body;
+        if(!params.nameCate || !params.descriptCate){
             cateAuth.add(req);
             res.redirect("/admin/cate/add");
         }else{
             var data={
-                name:req.body.nameCate,
-                description:req.body.descriptCate,
+                name:params.nameCate,
+                description:params.descriptCate,
                 datatime:{
                     createdAt:Date.now(),
                     updateAt:Date.now()
@@ -50,14 +51,15 @@ module.exports={
         })
     },
     postEdit:function(req,res,next){
-        if(!req.body.nameCate || !req.body.descriptCate){
+        let params=req.body;
+        if(!params.nameCate || !params.descriptCate){
             cateAuth.add(req);
             res.redirect("/admin/cate/edit/"+req.params.id);
         }else{
             const id=req.params.id;
             var data={
-                name:req.body.nameCate,
-                description:req.body.descriptCate,
+                name:params.nameCate,
+                description:params.descriptCate,
                 datatime:{
                     createdAt:Date.now()
                 }
