@@ -15,6 +15,7 @@ module.exports={
         }else{
             req.flash("success","Bạn đã đăng nhập");
             res.redirect('/admin/');
+            console.log("as");
         }
     }
 }
