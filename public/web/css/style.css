@@ -1,0 +1,139 @@
+body{
+    color: black;
+  }
+  a{
+      text-decoration: none !important;
+      color: black;
+  }
+  .header{
+    background-color: aquamarine;
+  }
+  .head{
+    color: black;
+  
+  }
+  .top-head,.content-body-head{
+      margin: auto;
+      width: 80%;
+  }
+  .top-head{
+    font-size: 90%;
+    padding: 15px 5px;
+  }
+  .left-top-head span i{
+    font-size: 80%;
+    padding-right: 5px;
+  }
+  .left-top-head a{
+    color: red;
+    text-decoration: none;
+    padding-left: 20px;
+  }.left-top-head a i{
+    padding-right: 5px;
+   }
+   .right-top-head{
+     float: right;
+     margin-right: 10%;
+   }
+   .right-top-head a{
+     margin-left: 10px;
+     text-decoration: none;
+     color: black;
+       padding: 10px;
+   }
+  
+   .body-head{
+     background-color:white;
+       padding: 25px 5px;
+   }
+  .body-head .right{
+      padding-top: 3%;
+      padding-left: 4%;
+  }
+  .cart{
+      padding-left: 2%;
+  }
+  .cart a{
+      padding: 10px;
+      border: 1px solid black;
+      background-color: red;
+      color: black;
+      text-decoration: none;
+  }
+  .cart a i{
+      padding-right: 5px;
+  }
+  .cart :hover{
+      background-color: blue;
+      color: red;
+  }
+  .bottom-head{
+      background-color: antiquewhite;
+  
+  }
+  aside{
+      padding: 10px 0px;
+  }
+  .detail{
+      padding-top:10px;
+      padding-left: 7px;
+      margin-bottom: 40px;
+  }
+  .price{
+      color:#e00e0e;
+  }
+  .add-cart{
+      padding-top: 15px;
+  }
+  .add{
+      padding:5px 15px;
+      border:1px solid black;
+      background-color:blue;
+      color: white;
+      border-radius: 2px;
+  }
+  .add:hover{
+      background-color: red;
+      color: blue;
+  }
+  .detail-product{
+      padding: 5px 40px;
+      border: 1px solid black;
+      border-radius: 3px;
+      margin-left: 5px;
+  }
+  .new-product,.top-product{
+      margin-top: 20px;
+  }
+  .body-footer{
+      background-color: #3e3d3d;
+      color: white;
+      padding: 40px 5px;
+      margin-top: 40px;
+  }
+  .body-footer h2{
+      margin-bottom: 20px;
+  }
+  .socail a{
+      font-size: 200%;
+      color: white;
+      padding: 5px 5px 5px 20px;
+      border: black;
+      background-color: #1e48cf;
+      margin: auto;
+  }
+  .contact a{
+      color: white;
+  }
+  .body-footer i{
+      margin-right: 10px;
+  }
+  .footer-bottom{
+      background-color: black;
+      padding: 5px 10px;
+  }
+  .footer-bottom p{
+      text-align: right;
+      color: white;
+      padding-top: 10px;
+  }

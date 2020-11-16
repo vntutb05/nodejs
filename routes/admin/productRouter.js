@@ -16,7 +16,7 @@ const upload = multer({ storage: storage});
 
 router.route("/").get(middleware.isLogin,productController.index);
 router.route("/add").get(middleware.isLogin,productController.getAdd).post(upload.single('image'),productController.postAdd);
-router.route("/edit/:id").get(middleware.isLogin,productController.getEdit).post(productController.postEdit);
+router.route("/edit/:id").get(middleware.isLogin,productController.getEdit).post(upload.single('image'),productController.postEdit);
 router.route("/delete/:id").get(middleware.isLogin,productController.delete);
 
 module.exports=router;

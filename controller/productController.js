@@ -2,6 +2,7 @@ const product=require("../models/postModels");
 const cateModel=require("../models/cateModels");
 const fs=require("fs");
 const productAuth=require("../auth/productAuth");
+const multer = require("multer");
 
 
 module.exports={
@@ -41,7 +42,7 @@ module.exports={
                 creationDate:new Date(),
             }
             if(req.file){
-                var img = fs.readFileSync("./public/uploads/" + req.file.filename);
+                var img = fs.readFileSync("./public/uploads/product" + req.file.filename);
                 var encode_image = img.toString('base64');
                 datas.image={
                     data:Buffer.from(encode_image, 'utf-8')
@@ -70,13 +71,20 @@ module.exports={
         })
     },
     // update
-    postEdit:function(req,res){
+    postEdit:async function(req,res,next){
         let params=req.body;
         var data={
             name:params.name,
             category:params.category,
             price:params.price,
             decription:params.decript
+        }
+        if(req.file){ 
+            var img = fs.readFileSync("./public/uploads/" + req.file.filename);
+            var encode_image = img.toString('base64');
+            data.image={
+                data:Buffer.from(encode_image, 'utf8')
+            };
         }
         product.updateOne({_id:req.params.id}, {$set:data},function(err,result){
             if(err){

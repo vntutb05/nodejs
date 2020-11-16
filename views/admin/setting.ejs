@@ -1,0 +1,75 @@
+<%-include('../layout/admin/head')%>
+<%-include('../layout/admin/slidebar')%>
+<%-include('../layout/admin/topbar')%>
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Setting Website</h6>
+        </div>
+        <div class="col-12">
+            <%-include("../layout/message")%>
+            <form action="/admin/setting" class="formReg" method="POST" enctype="multipart/form-data">
+                <h5>Name Website</h5>
+                <div class="form-group">
+                    <label for="nameWeb">Name Website</label>
+                    <input type="text" placeholder="Name Website.." class="form-control" id="nameWeb" name="nameWeb">
+                </div>
+                <div>
+                    <h5><i class="far fa-address-card mr-1"></i>Contact:</h5>
+                    <h6>Basis 1:</h6>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="address1">Address</label>
+                            <input type="text" placeholder="Address Basis 1.." class="form-control" id="address1" name="address1">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="phone1">Phone</label>
+                            <input type="number" placeholder="Phone Basis 1.." class="form-control" id="phone1" name="phone1">
+                        </div>
+                    </div>
+                    <h6>Basis 2:</h6>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="address2">Address</label>
+                            <input type="text" placeholder="Address Basis 2.." class="form-control" id="address2" name="address2">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="phone2">Phone</label>
+                            <input type="number" placeholder="Phone Basis 2.." class="form-control" id="phone2" name="phone2">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h5><i class="fas fa-link mr-2"></i>Link Social</h5>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="youtube"><i class="fab fa-youtube mr-1"></i>Youtube</label>
+                            <input type="text" placeholder="Link Your Youtube.." class="form-control" id="youtube" name="youtube">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="instagram"><i class="fab fa-instagram mr-1"></i>Instagram</label>
+                            <input type="text" placeholder="Link Your Instagram.." class="form-control" id="instagram" name="instagram">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="facebook"><i class="fab fa-facebook-f mr-1"></i>Facebook</label>
+                            <input type="text" placeholder="Link Your Facebook.." class="form-control" id="facebook"name="facebook">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="twiter"><i class="fab fa-twitter mr-1"></i>Twitter</label>
+                            <input type="text" placeholder="Link Your Twitter.." class="form-control" id="twiter" name="twiter">
+                        </div>
+                    </div>
+                </div>
+                <h5>Logo Website</h5>
+                <div class="form-group">
+                    <label for="logo">Logo Website</label>
+                    <input type="file" id="logo" name="image" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%-include('../layout/admin/footer')%>
