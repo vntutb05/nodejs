@@ -25,3 +25,7 @@
     ```
     yarn run dev
     ```
+- Document
+    ```
+    https://github.com/JacksonTian/ejs-mate
+    ```
