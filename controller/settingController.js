@@ -1,10 +1,25 @@
 const settingAuth=require("../auth/settingAuth");
 const settingModel=require("../models/settingModel");
+const {session}=require('../config/autoLoad');
+const   userAuth=require("../auth/userAuth");
 module.exports={
     getSetting:(req,res)=>{
-        res.render("admin/setting");
+        let userLogin=session(req).user;
+        if(userLogin.isAdmin!=0){
+            userAuth.lessPower(req);
+            return res.redirect("/admin/");
+        }
+        settingModel.find(function(error,result){
+            if(error){
+                return res.status(500).json(error);
+            }
+            var data=result[0];
+            return res.render("admin/setting",{data:data,user:userLogin}); 
+        })
+        
     },
     postSetting:(req,res)=>{
+        let id="5fb1f3313a1c2b1624430f9a";
         let params=req.body;
         if(!params.nameWeb ||!params.address1 || !params.phone1){
             settingAuth.settingAuth;
@@ -36,8 +51,7 @@ module.exports={
                 data:Buffer.from(encode_image, 'utf-8')
             };
         }
-        console.log(data);
-        settingModel.create(data,function(error,data){
+        settingModel.updateOne({_id:id},{$set:data},function(error,data){
             if(error){
                 return res.status(500).json(error);
             }

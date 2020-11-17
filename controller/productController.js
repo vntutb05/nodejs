@@ -3,27 +3,30 @@ const cateModel=require("../models/cateModels");
 const fs=require("fs");
 const productAuth=require("../auth/productAuth");
 const multer = require("multer");
+const {session}=require('../config/autoLoad');
 
 
 module.exports={
     index:function (req,res){
+        let userLogin=session(req).user;
         product.find(function (err,result){
             if(err){
                 res.status(500).json(err);
             }else{
                 cateModel.find(function(err,cate){
-                    res.render("admin/product/index",{data:result,cate:cate});
+                    res.render("admin/product/index",{data:result,cate:cate,user:userLogin});
                 })
                
             }
         })
     },
     getAdd:function(req,res){
+        let userLogin=session(req).user;
         cateModel.find(function(err,result){
             if(err){
                 res.status(500).json(err);
             }else{
-                res.render("admin/product/add",{data:result});
+                res.render("admin/product/add",{data:result,user:userLogin});
             }
         })
     }
@@ -60,12 +63,13 @@ module.exports={
     }, 
      getEdit:function (req,res,next){
          const id=req.params.id;
+         let userLogin=session(req).user;
         product.findById({_id:req.params.id},function(err,result){
             if(err){
                 res.status(500).json(err);
             }else{
                 cateModel.find(function(err,cate){
-                    res.render("admin/product/edit",{data:result,cate:cate});
+                    res.render("admin/product/edit",{data:result,cate:cate,user:userLogin});
                 })
             }
         })

@@ -1,19 +1,22 @@
 const cateModel=require("../models/cateModels");
 const cateAuth=require("../auth/categoryAuth");
+const {session}=require("../config/autoLoad");
 
 
 module.exports={
     index:function(req,res,next){
+        let userLogin=session(req).user;
         cateModel.find(function(err,result){
             if(err){
                 res.status(500).json(err);
             }else{
-                res.render("admin/category/index",{data:result});
+                res.render("admin/category/index",{data:result,user:userLogin});
             }
         })
     },
     getAdd:function(req,res,next){
-        res.render("admin/category/add");
+        let userLogin=session(req).user;
+        res.render("admin/category/add",{user:userLogin});
     },
     postAdd:function(req,res,next){
         let params=req.body;
@@ -34,19 +37,19 @@ module.exports={
                     res.status(500).json(err);
                 }else{
                     cateAuth.seccessAdd(req);
-                    Auth.isLogin(req,res,next);
                     res.redirect("/admin/cate/");
                 }
             })
         }
     },
     getEdit:function(req,res,next){
+        let userLogin=session(req).user;
         const id=req.params.id;
         cateModel.findById({_id:id},function(err,result){
             if(err){
                 res.status(500).json(err);
             }else{
-                res.render("admin/category/edit",{data:result});
+                res.render("admin/category/edit",{data:result,user:userLogin});
             }
         })
     },

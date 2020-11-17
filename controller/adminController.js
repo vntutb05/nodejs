@@ -4,9 +4,11 @@ const adminAuth=require("../auth/adminAuth");
 const bcrypt=require('bcrypt');
 const session=require('express-session');
 
+
 module.exports={
     index: (req,res,next) => {
-        res.render("admin/index");
+        let user=req.session.user;
+        res.render("admin/index",{user:user});
         next();
     },
     login:(req,res,next)=>{
@@ -28,7 +30,10 @@ module.exports={
                 req.flash("error","Tài khoản không tồn tại");
                 return res.redirect("/admin/login");
             }
-    
+            if(result[0].isAdmin!=0 && result[0].isAdmin!=1){
+                req.flash("error","Bạn không đủ quyền đăng nhập");
+                return res.redirect("/admin/login");
+            }
             if(bcrypt.compareSync(password,result[0].password) ){
                 req.flash('success',"Đăng nhập thành công");
                 req.session.user=result[0];

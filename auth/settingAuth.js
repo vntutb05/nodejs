@@ -1,3 +1,4 @@
+
 module.exports={
     settingAuth:(req,res)=>{
         let params=req.body;

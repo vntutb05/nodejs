@@ -20,8 +20,8 @@ const userScheme=new Scheme({
         required:true
     },
     isAdmin:{
-        type:Boolean,
-        required:true
+        type:Number,
+        
     },
     password:{
         type:String,

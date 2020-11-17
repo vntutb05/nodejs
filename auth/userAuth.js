@@ -38,5 +38,8 @@ module.exports={
     },
     seccessEdit:(req)=>{
         req.flash("success","Sửa người dùng thành công");
+    },
+    lessPower:(req)=>{
+        req.flash("error","Bạn không có đủ quyền hạn để thực hiện thao tác này");
     }
 }

@@ -1,18 +1,21 @@
 const userModel=require("../models/userModels");
 const userAuth=require("../auth/userAuth");
 const bcrypt = require('bcrypt');
+const {session}=require('../config/autoLoad');
 module.exports={
     index:function(req,res){
+        let userLogin=session(req).user;
         userModel.find(function(err,result){
             if(err){
                 res.status(500).json(err);
             }else{
-                res.render("admin/user/",{data:result});
+                res.render("admin/user/",{data:result,user:userLogin});
             }
         })
     },
     getAdd:function(req,res){
-        res.render("admin/user/add");
+        let userLogin=session(req).user
+        res.render("admin/user/add",{user:userLogin});
     },
     postAdd:function(req,res){
         let params=req.body;
@@ -29,35 +32,44 @@ module.exports={
                 email:params.email,
                 phone:params.phone,
                 address:params.address,
-                isAdmin:0,
+                isAdmin:params.power,
                 password:hash
             }
-            
+            console.log(data);
+           
             userModel.find({email:params.email},function(err,result){
                 if(result.length>0){
                    userAuth.userUnique(req);
-                    res.redirect("/admin/user/add");
+                    return res.redirect("/admin/user/add");
                 }else if(result.length==0){
                     userModel.create(data,function(err1,resultCre){
-                        if(err){
-                            res.status(500).json(err1);
+                        if(err1){
+                            return res.status(500).json(err1);
                         }else{
+                            console.log(resultCre);
                             userAuth.seccessAdd(req);
-                            res.redirect("/admin/user/");
+                            return res.redirect("/admin/user/");
                         }
                     })
+                    
                 }
             });
         }
     },
     getEdit:function(req,res){
+        let userLogin=session(req).user;
         const id=req.params.id;
         userModel.findById({_id:id},function(err,result){
-            if(err){
-                res.status(500).json(err);
-            }else{
-                res.render("admin/user/edit",{data:result});
+            if(userLogin.isAdmin >= result.isAdmin){
+                userAuth.lessPower(req);
+                return  res.redirect("/admin/user/");
             }
+            if(err){
+                return res.status(500).json(err);
+            }
+
+            return res.render("admin/user/edit",{data:result,user:userLogin});
+            
         })
     },
     postEdit:function(req,res){
@@ -88,12 +100,21 @@ module.exports={
         }
     },
     delete:function(req,res){
-        userModel.remove({_id:req.params.id},function(err,result){
-            if(err){
-                res.status(500).json(err);
+        let userLogin=session(req).user;
+        userModel.findById({_id:req.params.id},function(err,result){
+            if(userLogin.isAdmin >= result.isAdmin){
+                userAuth.lessPower(req);
+                return  res.redirect("/admin/user/");
             }else{
-                res.redirect("/admin/user/");
+                userModel.remove({_id:req.params.id},function(err,result){
+                    if(err){
+                        return res.status(500).json(err);
+                    }
+                    return res.redirect("/admin/user/");
+                    
+                })
             }
         })
+       
     }
 }

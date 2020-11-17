@@ -42,9 +42,11 @@
                             <td>
                                 <% if(user.isAdmin==1){ %>
                                     <span><i class="fa fa-check" style="color: green;font-size: 20px;"></i></span>
-                                <% }else{ %>
+                                <% }else if(user.isAdmin==2){ %>
                                     <span><i class="fa fa-times" style="font-size: 20px;color:red"></i></span>
-                                <% } %>
+                                <% }else{%>
+                                  <span><i class="fas fa-users-cog" style="font-size: 20px;color:blue"></i></span>  
+                                <%} %>
                             </td>
                             <td>
                                 <a href="/admin/user/edit/<%= user.id %>" class="alert alert-primary">Edit</a>
