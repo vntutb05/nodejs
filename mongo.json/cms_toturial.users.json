@@ -1,0 +1,3 @@
+{"_id":{"$oid":"5fb3f23d0e4a8818b0eaabf5"},"name":"Vu Tu","email":"vntu0505@gmail.com","phone":827836266,"address":"Bình dương","isAdmin":2,"password":"$2b$10$jerpGSs40fh3dFHgo/AJDuf/mGrFwFE21eBj3HogKRstxCXcB8Vou","__v":0}
+{"_id":{"$oid":"5fb3f3845874ff19283a2f31"},"name":"Vu Tu","email":"admin1@gmail.com","phone":827836266,"address":"Bình dương","isAdmin":0,"password":"$2b$10$NNxWPR5V9Tz.TVw1Ol3oPOl2ph.jvcFJ34ZUkpmN8Uj26B6XoCI7O","__v":0}
+{"_id":{"$oid":"5fb3f4e0f36d3903141ae766"},"name":"Vu Tu","email":"vntutb@gmail.com","phone":827836266,"address":"Bình dương","isAdmin":1,"password":"$2b$10$g3tejxB85K8iimy9v8ZQB.qr533kU9Pr2J21TWlBcU0kRZL0DK1Bi","__v":0}
