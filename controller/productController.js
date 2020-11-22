@@ -4,6 +4,7 @@ const fs=require("fs");
 const productAuth=require("../auth/productAuth");
 const multer = require("multer");
 const {session}=require('../config/autoLoad');
+const {checkText}=require("../config/regex");
 
 
 module.exports={
@@ -32,33 +33,39 @@ module.exports={
     }
     ,postAdd:function(req,res,next){
         let params=req.body;
-        if(!params.name || !params.price || !params.decript){
+        //checkText
+        let name=checkText(params.name);
+        let description=checkText(params.decript);
+        let price=checkText(params.price);
+        //validate
+        if(name.length==0|| price.length==0 || description.length==0){
              productAuth.add(req);
              return res.redirect("/admin/product/add");
         }
-            var datas={
-                name:params.name,
-                category:params.category,
-                price:params.price,
-                decription:params.decript,
-               
-                creationDate:new Date(),
+        // add data
+        var datas={
+            name:name,
+            category:params.category,
+            price:params.price,
+            decription:description,
+            
+            creationDate:new Date(),
+        }
+        if(req.file){
+            var img = fs.readFileSync("./public/uploads/product" + req.file.filename);
+            var encode_image = img.toString('base64');
+            datas.image={
+                data:Buffer.from(encode_image, 'utf-8')
+            };
+        }
+        product.create(datas,function (err,result){
+            if(err){
+                res.status(500).json(err);
+            }else{
+                productAuth.successAdd(req);
+                res.redirect('/admin/product/');
             }
-            if(req.file){
-                var img = fs.readFileSync("./public/uploads/product" + req.file.filename);
-                var encode_image = img.toString('base64');
-                datas.image={
-                    data:Buffer.from(encode_image, 'utf-8')
-                };
-            }
-            product.create(datas,function (err,result){
-                if(err){
-                    res.status(500).json(err);
-                }else{
-                    productAuth.successAdd(req);
-                    res.redirect('/admin/product/');
-                }
-            })
+        })
         
     }, 
      getEdit:function (req,res,next){
@@ -75,13 +82,20 @@ module.exports={
         })
     },
     // update
-    postEdit:async function(req,res,next){
+    postEdit :function(req,res,next){
         let params=req.body;
+        let name=checkText(params.name);
+        let description=checkText(params.decript);
+        let price=checkText(params.price);
+        if(name.length==0 || description.length==0 || price.length==0){
+                productAuth.add(req);
+                return res.redirect("/admin/product/edit/"+req.params.id);
+        }
         var data={
-            name:params.name,
+            name:name,
             category:params.category,
-            price:params.price,
-            decription:params.decript
+            price:price,
+            decription:description
         }
         if(req.file){ 
             var img = fs.readFileSync("./public/uploads/" + req.file.filename);
@@ -100,7 +114,7 @@ module.exports={
     },
     //delete
     delete:function(req,res){
-        product.remove({_id:req.params.id},function(err,result){
+        product.deleteOne({_id:req.params.id},function(err,result){
             if(err){
                 res.status(500).json(err);
             }else{

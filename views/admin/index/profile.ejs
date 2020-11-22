@@ -1,0 +1,40 @@
+<%-include('../../layout/admin/head')%>
+<%-include('../../layout/admin/topbar')%>
+<%-include('../../layout/admin/slidebar')%>
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h4 class="m-0 font-weight-bold text-primary">Profile User</h4>
+        </div>
+        <div class="row ml-5 mr-5 mt-4">
+            <div class="col col-4">
+                <img src="/assets/uploads/default/admin.png" alt="">
+            </div>
+            <div class="col col-8 bg-success pl-4 pt-5 info-user">
+                <h2 class="pb-3"><%=user.name%></h2>
+                <div class="row">
+                    <div class="col col-3">
+                        <p class="pb-2">Address:</p>
+                        <p class="pb-2">Phone:</p>
+                        <p class="pb-2">Quyền:</p>
+                    </div>
+                    <div class="col col-9">
+                        <p class="pb-2"><%=user.address%></p>
+                        <p class="pb-2"><%=user.phone%></p>
+                        <p class="pb-2">
+                            <%if(user.isAdmin==0){%>
+                                 SuperAdmin
+                            <%}else{%>
+                                 Admin
+                            <%}%>
+                        </p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    <div
+</div>
+
+
+<%-include('../../layout/admin/footer')%>

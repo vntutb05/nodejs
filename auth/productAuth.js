@@ -1,12 +1,13 @@
+const {checkText}=require("../config/regex");
 module.exports={
     add:(req)=>{
-        if(!req.body.name){
+        if(checkText(req.body.name).length==0){
             req.flash('error',"Vui lòng nhập tên sản phẩm");
         }
-        if(!req.body.price){
+        if(checkText(req.body.price).length==0){
             req.flash('error','Vui lòng nhập giá sản phẩm');
         }
-        if(!req.body.decript){
+        if(checkText(req.body.decript).length==0){
             req.flash('error','Vui lòng nhập miêu tả sản phẩm');
         }
     },

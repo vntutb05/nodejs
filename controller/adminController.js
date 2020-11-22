@@ -1,8 +1,10 @@
 // const postModel=require("../models/postModels");
-const userModel=require("../models/userModels");
-const adminAuth=require("../auth/adminAuth");
+const userModel=require('../models/userModels');
+const adminAuth=require('../auth/adminAuth');
 const bcrypt=require('bcrypt');
 const session=require('express-session');
+const {checkText}=require('../config/regex');
+const profileAuth=require('../auth/profileAuth');
 
 
 module.exports={
@@ -85,7 +87,75 @@ module.exports={
                     }
                 })
             }
-        });
-        
+        });    
+    },
+    profile:(req,res)=>{
+        let user=req.session.user;
+        res.render("admin/index/profile",{user:user});
+    },
+    setting:(req,res)=>{
+        let user=req.session.user;
+        res.render('admin/index/setting',{user:user})
+    },
+    postSetting:(req,res)=>{
+        let params=req.body;
+        let email=checkText(params.email);
+        let name=checkText(params.name);
+        let address=checkText(params.address);
+        let phone=checkText(params.phone);
+        if(email.length==0 || name.length==0 || address.length==0 || phone.length==0){
+            profileAuth.changeInfo(req);
+            return res.redirect('/admin/setting');
+        }
+        let data={
+            email:email,
+            name:name,
+            address:address,
+            phone:phone
+        }
+    
+        userModel.updateOne({_id:req.session.user._id},{$set:data},function(error,data){
+            if(error){
+                return res.status(500).json(err);
+            }
+            req.flash('success','Thay đổi thông tin thành công');
+            return res.redirect('/admin/')
+        })
+    },
+    changePass:(req,res)=>{
+        let user=req.session.user;
+        return res.render("admin/index/changePassword",{user:user});
+    },
+    postChangePass:(req,res)=>{
+        let params=req.body;
+       
+        let oldPassword=checkText(params.oldPass);
+        let newPassword=checkText(params.newPass);
+        let reNewPassword=checkText(params.reNewPass);
+        if(oldPassword.length==0 || newPassword.length==0){
+            profileAuth.changePass(req);
+            return res.redirect('/admin/changePassword');
+        }
+        if(newPassword != reNewPassword){
+            profileAuth.matchPass(req);
+            return res.redirect('/admin/changePassword');
+        }
+        if(bcrypt.compareSync(oldPassword,req.session.user.password) ){
+            let data={};
+            data.password=bcrypt.hashSync(newPassword,10);
+            userModel.updateOne({_id:req.session.user._id},{$set:data},function(error,data){
+                if(error){
+                    return res.status(500).json(error);
+                }
+                req.flash('success','Thay đổi mật khẩu thành công');
+                return res.redirect('/admin/')
+            })
+        }else{
+            req.flash("error","Mật khẩu hiện tại không chính xác");
+            res.redirect("/admin/changePassword");
+        }
+
+
     }
+
 }

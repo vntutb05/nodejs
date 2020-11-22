@@ -2,6 +2,7 @@ const userModel=require("../models/userModels");
 const userAuth=require("../auth/userAuth");
 const bcrypt = require('bcrypt');
 const {session}=require('../config/autoLoad');
+const {checkText,validateEmail}=require("../config/regex");
 module.exports={
     index:function(req,res){
         let userLogin=session(req).user;
@@ -19,7 +20,13 @@ module.exports={
     },
     postAdd:function(req,res){
         let params=req.body;
-        if(!params.name||!params.email || !params.address || !params.phone || !params.password){
+        let name=checkText(params.name);
+        let email=validateEmail(params.email);
+        let address=checkText(params.address);
+        let phone =checkText(params.phone);
+        let password=checkText(params.password);
+
+        if(name.length==0||email.length==0 || address.length==0 || phone.length==0 || password.length==0){
             userAuth.user(req);
             res.redirect("/admin/user/add");
         }else if(params.password!=params.repassword){
@@ -28,10 +35,10 @@ module.exports={
         }else{
             const hash=bcrypt.hashSync(params.password,10);
             var data={
-                name:params.name,
-                email:params.email,
-                phone:params.phone,
-                address:params.address,
+                name:name,
+                email:email,
+                phone:phone,
+                address:address,
                 isAdmin:params.power,
                 password:hash
             }
@@ -74,7 +81,12 @@ module.exports={
     },
     postEdit:function(req,res){
         let params=req.body;
-        if(!params.name|| !params.address || !params.phone){
+        let name=checkText(params.name);
+        let address=checkText(params.address);
+        let phone =checkText(params.phone);
+
+ 
+        if(name.length==0|| address.length==0 || phone.length==0 ){
             userAuth.edit(req);
             res.redirect(`/admin/user/edit/${req.params.id}`);
         }else if(params.password!=params.repassword){
@@ -86,7 +98,7 @@ module.exports={
                 phone:params.phone,
                 address:params.address,
             }
-            if(params.password !=""){
+            if(checkText(params.password)!=0){
                 data.password=params.password;
             }
             userModel.updateOne({_id:req.params.id},{$set:data},function(err,result){

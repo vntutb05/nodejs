@@ -1,29 +1,30 @@
+const {checkText}=require("../config/regex");
 module.exports={
     user:(req)=>{
-        if(!req.body.name){
+        if(checkText(req.body.name).length==0){
             req.flash("error","Vui lòng nhập tên của bạn");
         }
-        if(!req.body.email){
+        if(checkText(req.body.email).length==0){
             req.flash("error","Vui lòng nhập email của bạn");
         }
-        if(!req.body.phone){
+        if(checkText(req.body.phone).length==0){
             req.flash("error","Vui lòng nhập số điện thoại của ban");
         }
-        if(!req.body.address){
+        if(checkText(req.body.address).length==0){
             req.flash("error","Vui lòng nhập địa chỉ của bạn");
         }
-        if(!req.body.password){
+        if(checkText(req.body.password).length==0){
             req.flash("error","Vui lòng nhập mật khẩu của bạn");
         }
     },
     edit:(req)=>{
-        if(!req.body.name){
+        if(checkText(req.body.name).length==0){
             req.flash("error","Vui lòng nhập tên của bạn");
         }
-        if(!req.body.phone){
+        if(checkText(req.body.phone).length==0){
             req.flash("error","Vui lòng nhập số điện thoại của ban");
         }
-        if(!req.body.address){
+        if(checkText(req.body.address).length==0){
             req.flash("error","Vui lòng nhập địa chỉ của bạn");
         }
     },

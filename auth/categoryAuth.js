@@ -1,9 +1,11 @@
+const {checkText}=require("../config/regex");
 module.exports={
     add:(req)=>{
-        if(!req.body.nameCate){
+        let params=req.body;
+        if(!params.nameCate || checkText(params.nameCate)<=0){
             req.flash('error','Vui lòng nhập tên Category');
         }
-        if(!req.body.descriptCate){
+        if(!params.descriptCate || checkText(params.descriptCate)<=0){
             req.flash('error','Vui lòng nhập miêu tả Category');
         }
     },

@@ -1,7 +1,7 @@
 const cateModel=require("../models/cateModels");
 const cateAuth=require("../auth/categoryAuth");
 const {session}=require("../config/autoLoad");
-
+const {checkText}=require("../config/regex");
 
 module.exports={
     index:function(req,res,next){
@@ -20,27 +20,30 @@ module.exports={
     },
     postAdd:function(req,res,next){
         let params=req.body;
-        if(!params.nameCate || !params.descriptCate){
+        let name =checkText(params.nameCate);
+        let descriptCate=checkText(params.descriptCate);
+        if(name.length==0 || descriptCate.length==0){
             cateAuth.add(req);
-            res.redirect("/admin/cate/add");
-        }else{
-            var data={
-                name:params.nameCate,
-                description:params.descriptCate,
-                datatime:{
-                    createdAt:Date.now(),
-                    updateAt:Date.now()
-                }
-            };
-            cateModel.create(data,function(err,result){
-                if(err){
-                    res.status(500).json(err);
-                }else{
-                    cateAuth.seccessAdd(req);
-                    res.redirect("/admin/cate/");
-                }
-            })
+            return res.redirect("/admin/cate/add");
         }
+    
+        let data={
+            name:name,
+            description:descriptCate,
+            datatime:{
+                createdAt:Date.now(),
+                updateAt:Date.now()
+            }
+        };
+        cateModel.create(data,function(err,result){
+            if(err){
+                res.status(500).json(err);
+            }else{
+                cateAuth.seccessAdd(req);
+                res.redirect("/admin/cate/");
+            }
+        })
+    
     },
     getEdit:function(req,res,next){
         let userLogin=session(req).user;
@@ -55,34 +58,37 @@ module.exports={
     },
     postEdit:function(req,res,next){
         let params=req.body;
-        if(!params.nameCate || !params.descriptCate){
+        let name =checkText(params.nameCate);
+        let descriptCate=checkText(params.descriptCate);
+        if(name.length==0 || descriptCate.length==0){
             cateAuth.add(req);
-            res.redirect("/admin/cate/edit/"+req.params.id);
-        }else{
-            const id=req.params.id;
-            var data={
-                name:params.nameCate,
-                description:params.descriptCate,
-                datatime:{
-                    createdAt:Date.now()
+            return res.redirect("/admin/cate/edit/"+req.params.id);
+        }
+       
+        const id=req.params.id;
+        let data={
+            name:name,
+            description:descriptCate,
+            datatime:{
+                createdAt:Date.now()
+            }
+        }
+        cateModel.updateOne({_id:id},
+            {$set:data},
+            function(err,result){
+                if(err){
+                    res.status(500).json(err);
+                }else{
+                    cateAuth.seccessEdit(req);
+                    res.redirect("/admin/cate/");
                 }
             }
-            cateModel.updateOne({_id:id},
-                {$set:data},
-                function(err,result){
-                    if(err){
-                        res.status(500).json(err);
-                    }else{
-                        cateAuth.seccessEdit(req);
-                        res.redirect("/admin/cate/");
-                    }
-                }
-            )
-        }
+        )
+        
     },
     delete:function(req,res,next){
         const id=req.params.id;
-        cateModel.remove({_id:id},function(err,result){
+        cateModel.deleteOne({_id:id},function(err,result){
             if(err){
                 res.status(500).json(err);
             }else{
