@@ -1,8 +1,11 @@
 const session=require("express-session");
 module.exports={
     isLogin:(req,res,next)=>{
-        if(req.session.user){
-            next();
+        let user=req.session.user
+        if(user){
+            if(user.isAdmin==0 || user.isAdmin==1){
+                next();
+            }
         }else{
             req.flash("error","Vui lòng đăng nhập trước");
             res.redirect('/admin/login');

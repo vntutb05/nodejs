@@ -8,6 +8,8 @@ module.exports={
             }
             res.render("web/index",{data:data});
         })
-        
+    },
+    login:(req,res)=>{
+        res.render('web/login');
     }
 }

@@ -53,7 +53,6 @@ module.exports={
                         if(err1){
                             return res.status(500).json(err1);
                         }else{
-                            console.log(resultCre);
                             userAuth.seccessAdd(req);
                             return res.redirect("/admin/user/");
                         }
