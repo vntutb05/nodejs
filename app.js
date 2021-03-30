@@ -1,29 +1,24 @@
 // import modules
 const express=require("express");
-const mongoose=require("mongoose");
 const bodyParser=require("body-parser");
-const path=require("path");
-const hbs=require("express-handlebars");
-const multer=require("multer");
 const flash=require("connect-flash");
 const session=require("express-session");
 const redis=require("redis");
-const {mongoDbUrl,PORT,globalVariable}=require("./config/config");
-const {adminRouter,productRouter,userRouter,cateRouter,settingRoute}=require("./routes/admin/indexRouter");
+const {globalVariable}=require("./config/config");
+const config = require("./config/defaul.json");
+const database = require('./common/database');
 
 
 let RedisStore = require('connect-redis')(session)
 let redisClient = redis.createClient(12998, 'redis-12998.c10.us-east-1-2.ec2.cloud.redislabs.com',{password:"P7gxdQtx6TFXRXGZwuEDmyfN4siGCzze"});
+let port = config.server.port;
+
+let router=require("./routes/admin");
  
 const app=express();
-
+database.connectDb();
 //connect to mongodb
-mongoose.connect(mongoDbUrl,{ useNewUrlParser: true,useUnifiedTopology: true  } )
-    .then(response =>{
-        console.log("Mongodb connected success");
-    }).catch(err=>{
-        console.log("Database connect failed");
-})
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use("/assets",express.static(__dirname+"/public"));
@@ -34,6 +29,7 @@ app.use(flash());
     resave:true, 
     cookie: { maxAge: 7 * 24 * 3600 * 1000 }
 })) */
+/* sesion use redis */
 app.use(
     session({
       store: new RedisStore({ client: redisClient }),
@@ -44,14 +40,9 @@ app.use(
 app.use(globalVariable);
 app.set("view engine","ejs");
 
-const indexRouter=require("./routes/web/index");
-app.use("/",indexRouter);
-app.use("/admin",adminRouter);
-app.use("/admin/product",productRouter);
-app.use("/admin/user",userRouter);
-app.use("/admin/cate",cateRouter);
-app.use("/admin",settingRoute);
+app.use(router);
 
-app.listen(PORT,()=>{
-    console.log(`Connected to server at port ${PORT}`);
+
+app.listen(port,()=>{
+    console.log(`Connected to server at port ${port}`);
 })

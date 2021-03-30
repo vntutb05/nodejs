@@ -21,7 +21,6 @@ const userScheme=new Scheme({
     },
     isAdmin:{
         type:Number,
-        
     },
     password:{
         type:String,

@@ -15,13 +15,16 @@ module.exports={
         })
     },
     getAdd:function(req,res){
-        let userLogin=session(req).user
+        let userLogin=session(req).user;
+        console.log(req.body._method);
         res.render("admin/user/add",{user:userLogin});
     },
     postAdd:function(req,res){
         let params=req.body;
         let name=checkText(params.name);
-        let email=validateEmail(params.email);
+        if(validateEmail(params.email)){
+            var email=params.email;
+        }
         let address=checkText(params.address);
         let phone =checkText(params.phone);
         let password=checkText(params.password);

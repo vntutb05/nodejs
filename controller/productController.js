@@ -8,7 +8,7 @@ const {checkText}=require("../config/regex");
 
 
 module.exports={
-    index:function (req,res){
+    index:async function (req,res){
         let userLogin=session(req).user;
         product.find(function (err,result){
             if(err){
@@ -43,7 +43,7 @@ module.exports={
              return res.redirect("/admin/product/add");
         }
         // add data
-        var datas={
+        var data={
             name:name,
             category:params.category,
             price:params.price,
@@ -52,13 +52,13 @@ module.exports={
             creationDate:new Date(),
         }
         if(req.file){
-            var img = fs.readFileSync("./public/uploads/product" + req.file.filename);
+            var img = fs.readFileSync("./public/uploads/" + req.file.filename);
             var encode_image = img.toString('base64');
-            datas.image={
-                data:Buffer.from(encode_image, 'utf-8')
+            data.image={
+                data:Buffer.from(encode_image, 'utf8')
             };
         }
-        product.create(datas,function (err,result){
+        product.create(data,function (err,result){
             if(err){
                 res.status(500).json(err);
             }else{

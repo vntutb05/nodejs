@@ -23,11 +23,18 @@
                             </div>
                         </div>
                         <div class="col col-6">
-                            <div class="right-top-head">
-                                <a href=""><i class="fas fa-user"></i>Tài khoản</a>
-                                <a href=""> Đăng kí</a>
-                                <a href="/login">Đăng nhập</a>
-                            </div>
+                            <%if(user!= null){%>
+                                <div class="right-top-head">
+                                    <a href=""><i class="fas fa-user"></i><%=user.name%></a>
+                                    <a href="/logout">Đăng xuất</a>
+                                </div>
+                            <%}else{%>
+                                <div class="right-top-head">
+                                    <a href=""><i class="fas fa-user"></i>Tài khoản</a>
+                                    <a href=""> Đăng kí</a>
+                                    <a href="/login">Đăng nhập</a>
+                                </div>
+                            <%}%>
                         </div>
                     </div>
                 </div>
@@ -35,7 +42,7 @@
                 <div class="body-head">
                     <div class="row content-body-head">
                         <div class="col col-6 left">
-                            <a href="">
+                            <a href="/">
                                 <img src="./assets/web/image/logo-cake.png" alt="Anh" width="160px" height="120px">
                             </a>
                         </div>
@@ -60,7 +67,7 @@
                             <div class="menu collapse navbar-collapse">
                                 <ul class="navbar-nav mr-auto">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="#">Trang chủ <span class="sr-only">(current)</span></a>
+                                        <a class="nav-link" href="/">Trang chủ <span class="sr-only">(current)</span></a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">Giới Thiệu</a>
