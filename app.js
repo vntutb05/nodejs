@@ -10,7 +10,7 @@ const database = require('./common/database');
 
 
 let RedisStore = require('connect-redis')(session)
-let redisClient = redis.createClient(12998, 'redis-12998.c10.us-east-1-2.ec2.cloud.redislabs.com',{password:"P7gxdQtx6TFXRXGZwuEDmyfN4siGCzze"});
+let redisClient = redis.createClient(6379, 'redis-6379.c10.us-east-1-2.ec2.cloud.redislabs.com');
 let port = config.server.port;
 
 let router=require("./routes/admin");
